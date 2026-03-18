@@ -1,0 +1,49 @@
+# .NET
+bin/
+obj/
+*.dll
+*.exe
+*.so
+*.dylib
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+*.code-workspace
+*.suo
+*.user
+*.userprefs
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+*.idc
+.gradle/
+*.swp
+*.swo
+*~
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Package managers
+packages/
+.npm/
+node_modules/
+
+# Azure
+.azure/
+local.settings.json
+
+# IDE
+*.Code-Workspace
+*.VS-Workspace
