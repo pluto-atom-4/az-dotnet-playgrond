@@ -40,6 +40,17 @@ packages/
 .npm/
 node_modules/
 
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.Python
+
 # Azure
 .azure/
 local.settings.json

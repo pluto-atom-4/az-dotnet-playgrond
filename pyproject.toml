@@ -1,0 +1,8 @@
+[project]
+name = "az-dotnet-playground"
+version = "0.1.0"
+description = "Azure .NET SDK playground monorepo"
+requires-python = ">=3.13"
+dependencies = [
+    "azure-cli",
+]
