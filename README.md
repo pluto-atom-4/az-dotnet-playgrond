@@ -57,6 +57,93 @@ A monorepo for exploring and experimenting with Azure services using .NET and C#
    dotnet test
    ```
 
+## Local Emulators
+
+For local development and testing without connecting to Azure, use the following emulators:
+
+### Azurite (Storage Emulator)
+
+Azurite emulates Azure Blob, Queue, and Table storage services locally.
+
+**Setup:**
+```bash
+# Use Node.js LTS (nvm reads from .nvmrc)
+nvm use --lts
+
+# Install dependencies
+pnpm install
+
+# Start Azurite
+pnpm run azurite
+# Or use the shell script
+./scripts/start-azurite.sh
+```
+
+**Endpoints:**
+- Blob Storage: `http://localhost:10000`
+- Queue Storage: `http://localhost:10001`
+- Table Storage: `http://localhost:10002`
+
+**Connection String (default development account):**
+```
+UseDevelopmentStorage=true
+```
+
+Or use the full connection string:
+```
+DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://localhost:10000/devstoreaccount1;QueueEndpoint=http://localhost:10001/devstoreaccount1;TableEndpoint=http://localhost:10002/devstoreaccount1;
+```
+
+Data is persisted in `.azurite/` directory.
+
+### CosmosDB Emulator (Linux)
+
+CosmosDB NoSQL (SQL API) emulator runs in Docker. **Note:** Table, Cassandra, and Gremlin APIs are not supported on the Linux Docker emulator.
+
+**Prerequisites:**
+- Docker with rootless mode (see [docker-rootless-debian13.md](docs/docker-rootless-debian13.md))
+
+**Setup:**
+```bash
+# Start CosmosDB emulator
+docker-compose up cosmosdb
+
+# To run in background
+docker-compose up -d cosmosdb
+```
+
+**Endpoints:**
+- API Endpoint: `https://localhost:8081`
+- Data Explorer: `http://localhost:1234`
+
+**Connection String (static, well-known key):**
+```
+AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;
+```
+
+**Important:** When using the CosmosDB emulator from .NET code, set `ConnectionMode` to `Gateway` and disable certificate validation for local dev:
+```csharp
+var client = new CosmosClient(
+    connectionString,
+    new CosmosClientOptions
+    {
+        ConnectionMode = ConnectionMode.Gateway,
+        // For local emulator only: disable cert validation
+        HttpClientFactory = () => new HttpClient(new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        })
+    }
+);
+```
+
+Data is persisted in `.azurite/cosmosdb/` directory.
+
+**Stop the emulator:**
+```bash
+docker-compose down
+```
+
 ## Target Azure Services
 
 This playground covers implementations of:

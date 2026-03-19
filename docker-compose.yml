@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  cosmosdb:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview
+    container_name: cosmosdb-emulator
+    ports:
+      - "8081:8081"
+      - "1234:1234"
+    environment:
+      AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE: "true"
+      ENABLE_TELEMETRY: "false"
+    volumes:
+      - .azurite/cosmosdb:/data
+    # Allow hostname resolution for localhost
+    networks:
+      - emulator-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-k", "https://localhost:8081/_explorer/emulator.pem"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Optional: Azurite as Docker service (alternative to pnpm)
+  # Uncomment to use Docker for Azurite instead of pnpm
+  # azurite:
+  #   image: mcr.microsoft.com/azure-storage/azurite:latest
+  #   container_name: azurite-emulator
+  #   ports:
+  #     - "10000:10000"
+  #     - "10001:10001"
+  #     - "10002:10002"
+  #   volumes:
+  #     - .azurite:/data
+  #   command: azurite --location /data --debug /data/azurite.log
+  #   networks:
+  #     - emulator-network
+
+networks:
+  emulator-network:
+    driver: bridge

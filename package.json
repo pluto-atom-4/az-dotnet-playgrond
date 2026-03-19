@@ -1,0 +1,13 @@
+{
+  "name": "az-dotnet-playground",
+  "private": true,
+  "scripts": {
+    "azurite": "azurite --location .azurite --debug .azurite/azurite.log",
+    "azurite:blob": "azurite-blob --location .azurite --debug .azurite/azurite.log",
+    "azurite:queue": "azurite-queue --location .azurite --debug .azurite/azurite.log",
+    "azurite:table": "azurite-table --location .azurite --debug .azurite/azurite.log"
+  },
+  "devDependencies": {
+    "azurite": "^3.33.0"
+  }
+}
