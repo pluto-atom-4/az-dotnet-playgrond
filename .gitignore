@@ -40,6 +40,9 @@ packages/
 .npm/
 node_modules/
 
+# Azurite emulator data
+.azurite/
+
 # Python
 .venv/
 venv/
