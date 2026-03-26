@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Hosting;
+
 namespace AzureFunctions
 {
     /// <summary>
@@ -7,7 +9,11 @@ namespace AzureFunctions
     {
         public static void Main(string[] args)
         {
-            // Azure Functions Worker host initialization
+            var host = new HostBuilder()
+                .ConfigureFunctionsWorkerDefaults()
+                .Build();
+
+            host.Run();
         }
     }
 }
